@@ -1,0 +1,43 @@
+indexCows:
+  name: ${self:service}-cow-index-${opt:stage, self:provider.stage}
+  handler: ./src/cow/handler.index
+  memorySize: 128
+  description: lists all cows
+  events:
+    - http:
+        path: cows
+        method: get
+        cors: true
+
+getCow:
+  name: ${self:service}-cow-get-${opt:stage, self:provider.stage}
+  handler: ./src/cow/handler.get
+  memorySize: 128
+  description: get cow by id
+  events:
+    - http:
+        path: cows/{id}
+        method: get
+        cors: true
+
+createCow:
+  name: ${self:service}-cow-create-${opt:stage, self:provider.stage}
+  handler: ./src/cow/handler.create
+  memorySize: 128
+  description: creates a new cow
+  events:
+    - http:
+        path: cows
+        method: post
+        cors: true
+
+updateCow:
+  name: ${self:service}-cow-update-${opt:stage, self:provider.stage}
+  handler: ./src/cow/handler.update
+  memorySize: 128
+  description: updates a new cow
+  events:
+    - http:
+        path: cows/{id}
+        method: post
+        cors: true

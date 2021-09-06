@@ -1,0 +1,43 @@
+indexOwners:
+  name: ${self:service}-owner-index-${opt:stage, self:provider.stage}
+  handler: ./src/owner/handler.index
+  memorySize: 128
+  description: lists all owners
+  events:
+    - http:
+        path: owners
+        method: get
+        cors: true
+
+getOwner:
+  name: ${self:service}-owner-get-${opt:stage, self:provider.stage}
+  handler: ./src/owner/handler.get
+  memorySize: 128
+  description: get owner by id
+  events:
+    - http:
+        path: owners/{id}
+        method: get
+        cors: true
+
+createOwner:
+  name: ${self:service}-owner-create-${opt:stage, self:provider.stage}
+  handler: ./src/owner/handler.create
+  memorySize: 128
+  description: creates a new owner
+  events:
+    - http:
+        path: owners
+        method: post
+        cors: true
+
+updateOwner:
+  name: ${self:service}-owner-update-${opt:stage, self:provider.stage}
+  handler: ./src/owner/handler.update
+  memorySize: 128
+  description: updates a new owner
+  events:
+    - http:
+        path: owners/{id}
+        method: post
+        cors: true

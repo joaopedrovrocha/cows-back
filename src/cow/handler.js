@@ -67,7 +67,7 @@ function get(event, context, callback) {
 function create(event, context, callback) {
     const requestBody = JSON.parse(event.body)
 
-    const { gender, birthMonth, ownerId, name } = requestBody
+    const { gender, birthMonth, ownerId, name, quantity } = requestBody
 
     if (!gender || !birthMonth || !ownerId) {
         callback(new Error('Could not create new cow because of validation errors.'))
@@ -78,7 +78,7 @@ function create(event, context, callback) {
     Dynamo
         .get(OWNER_TABLE, ownerId)
         .then(owner => {
-            const cowDynamo = CowModel.build(gender, birthMonth, ownerId, owner, name)
+            const cowDynamo = CowModel.build(gender, birthMonth, ownerId, owner, name, quantity)
 
             Dynamo
                 .create(COW_TABLE, cowDynamo)
@@ -127,14 +127,14 @@ function update(event, context, callback) {
         return callback(new Error(e))
     }
 
-    const { gender, birthMonth, ownerId, name } = requestBody
+    const { gender, birthMonth, ownerId, name, quantity } = requestBody
 
     // find owner to save reference on cow table
     Dynamo
         .get(OWNER_TABLE, ownerId)
         .then(owner => {
             Dynamo
-                .update(COW_TABLE, id, { gender, birthMonth, ownerId, owner, name })
+                .update(COW_TABLE, id, { gender, birthMonth, ownerId, owner, name, quantity })
                 .then(cow => {
                     callback(null, {
                         statusCode: 200,
